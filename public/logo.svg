@@ -1,0 +1,24 @@
+<svg width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+ 
+  <rect x="10" y="10" width="480" height="380" rx="20" ry="20" stroke="#7c5500" stroke-width="20" fill="none"/>
+
+
+  <rect x="40" y="40" width="420" height="320" rx="10" ry="10" stroke="#7c5500" stroke-width="10" fill="none"/>
+
+ 
+  <rect x="60" y="60" width="380" height="280" rx="5" ry="5" fill="#F0E68C" />
+
+  <circle cx="60" cy="60" r="8" fill="darkgoldenrod"/>
+  <path d="M60,60 Q70,40 80,60 T100,60" stroke="darkgoldenrod" fill="none" stroke-width="3"/>
+  
+  <circle cx="60" cy="340" r="8" fill="darkgoldenrod"/>
+  <path d="M60,340 Q70,360 80,340 T100,340" stroke="darkgoldenrod" fill="none" stroke-width="3"/>
+  
+  <circle cx="440" cy="60" r="8" fill="darkgoldenrod"/>
+  <path d="M440,60 Q430,40 420,60 T400,60" stroke="darkgoldenrod" fill="none" stroke-width="3"/>
+  
+  <circle cx="440" cy="340" r="8" fill="darkgoldenrod"/>
+  <path d="M440,340 Q430,360 420,340 T400,340" stroke="darkgoldenrod" fill="none" stroke-width="3"/>
+
+  <text x="250" y="210" font-family="Times New Roman" font-size="32" fill="black" text-anchor="middle" font-weight="bold">Exhibition Curator</text>
+</svg>
