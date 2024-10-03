@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export default function ArtCollectionTwoCard({ artwork }) {
   const { collection, setCollection } = useContext(CollectionContext);
 
+  console.log(collection);
+
   const isInCollection = collection.some(
     (item) => item.artwork.id === artwork.id
   );
@@ -18,7 +20,12 @@ export default function ArtCollectionTwoCard({ artwork }) {
   };
 
   const removeFromCollection = () => {
-    setCollection(collection.filter((item) => item.artwork.id !== artwork.id));
+    setCollection(
+      collection.filter(
+        (item) =>
+          item.artwork.id !== artwork.id 
+      )
+    );
     //   //toast:
     console.log("Artwork removed from your collection!");
   };

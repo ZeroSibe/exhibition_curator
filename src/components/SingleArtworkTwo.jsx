@@ -36,7 +36,6 @@ export default function SingleArtworkTwo() {
     console.log("Artwork removed from your collection!");
   };
 
-
   useEffect(() => {
     setError("");
     setIsLoading(true);
@@ -47,6 +46,7 @@ export default function SingleArtworkTwo() {
         const imageUrls = getImageUrls(artwork);
         setImageUrls(imageUrls);
         setIsLoading(false);
+        console.log(data);
       })
       .catch(({ response }) => {
         if (response.status === 404) {
@@ -77,7 +77,7 @@ export default function SingleArtworkTwo() {
           maxWidth: "1200px",
           width: "100%",
           aspectRatio: "10/6",
-          margin: "0 auto",
+          margin: "50px auto",
         }}
       >
         <ImageSlider imageUrls={imageUrls} alt={artwork.title} />
@@ -96,7 +96,13 @@ export default function SingleArtworkTwo() {
 
         {artwork.culture[0] ? <p>{artwork.culture[0]}</p> : null}
 
-        {artwork.technique ? <p> {artwork.technique}</p> : null}
+        {artwork.technique ? (
+          <p>
+            {" "}
+            {"Materials and Technique: "}
+            {artwork.technique}
+          </p>
+        ) : null}
 
         {artwork.collection ? <p> {artwork.collection}</p> : null}
 
@@ -116,9 +122,17 @@ export default function SingleArtworkTwo() {
         {artwork.current_location ? (
           <p>
             Location: {artwork.current_location}{" "}
-            <Link to={artwork.url}>View more details</Link>
+            <Link to={artwork.url} target="_blank">
+              View more details at clevelandart.org
+            </Link>
           </p>
-        ) : null}
+        ) : (
+          <p>
+            <Link to={artwork.url} target="_blank">
+              View more details at clevelandart.org
+            </Link>
+          </p>
+        )}
         {artwork.measurements ? <p>{artwork.measurements}</p> : null}
       </div>
 

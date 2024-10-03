@@ -16,17 +16,19 @@ export default function ArtlistCollectionOne() {
   const page = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 15;
 
-  //   infor.page 1 of  info.pages 665
+  //   infor.page 1 of  info.pages 665 of results = data.info.record_count
   //{info: {…}, records: Array(15), clusters: {…}}
 
   useEffect(() => {
+    setError("");
     setIsLoading(true);
     setMsg("");
     collectionOneAPI
       .get(
-        `/objects/search?q=${query}&page_size=${itemsPerPage}&page=${page}&images_exist=1`
+        `/objects/search?q=${query}&page_size=${itemsPerPage}&page=${page}&images_exist=1&on_display_at=dundee`
       )
       .then(({ data }) => {
+        console.log(data);
         const records = data.records;
         let totalPages = data.info.pages;
         if (records.length === 0) {
@@ -49,9 +51,9 @@ export default function ArtlistCollectionOne() {
 
   return (
     <div>
-      <h2>Victoria and Albert Museum</h2>
+      <h2>V&A Dundee Collections</h2>
       {isLoading ? (
-        <div>...Loading</div>
+        <div>Loading...</div>
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />

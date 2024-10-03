@@ -23,6 +23,7 @@ export default function ArtlistCollectionTwo() {
   useEffect(() => {
     setError("");
     setIsLoading(true);
+    setMsg("");
     collectionTwoAPI
       .get(
         `/?q=${query}&limit=${itemsPerPage}&has_image=1&skip=${
@@ -60,6 +61,9 @@ export default function ArtlistCollectionTwo() {
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />
+          <p>
+            showing page {page} of {pageTotal}
+          </p>
 
           <ul>
             {artLists.map((artwork) => {

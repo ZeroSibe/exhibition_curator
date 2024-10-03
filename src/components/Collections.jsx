@@ -8,7 +8,7 @@ export default function Collections() {
       <section>
         <h3>
           <Link to="/collections/victoria-and-albert-museum">
-            Victoria and Albert Museum
+          V&A Dundee
           </Link>
         </h3>
       </section>
