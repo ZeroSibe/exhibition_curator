@@ -8,6 +8,7 @@ export const getArtworkOneById = (artworkId) => {
   return collectionOneAPI.get(`/museumobject/${artworkId}`);
 };
 
+
 export const collectionTwoAPI = axios.create({
   baseURL: "https://openaccess-api.clevelandart.org/api/artworks",
 });

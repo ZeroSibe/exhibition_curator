@@ -9,7 +9,7 @@ export default function Header() {
         <Link to="/">
           <img
             src="/logo.svg"
-            width={150}
+            width={100}
             height={100}
             alt="Exhibition Curator"
           />

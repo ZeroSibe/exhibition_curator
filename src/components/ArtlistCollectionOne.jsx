@@ -7,6 +7,7 @@ import PageControl from "./PageControl";
 
 export default function ArtlistCollectionOne() {
   const [artLists, setArtLists] = useState([]);
+  const [records, setRecords] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pageTotal, setPageTotal] = useState(1);
@@ -16,27 +17,29 @@ export default function ArtlistCollectionOne() {
   const page = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 15;
 
-  //   infor.page 1 of  info.pages 665
-  //{info: {…}, records: Array(15), clusters: {…}}
-
   useEffect(() => {
+    setError("");
     setIsLoading(true);
     setMsg("");
     collectionOneAPI
       .get(
-        `/objects/search?q=${query}&page_size=${itemsPerPage}&page=${page}&images_exist=1`
+        `/objects/search?q=${query}&page_size=${itemsPerPage}&page=${page}&images_exist=1&on_display_at=dundee`
       )
       .then(({ data }) => {
-        const records = data.records;
+        console.log(data);
+        const artworks = data.records;
         let totalPages = data.info.pages;
-        if (records.length === 0) {
+        const artworkCount = data.info.record_count;
+        if (artworks.length === 0) {
           setArtLists([]);
           setMsg("No artwork found for given search query");
           setIsLoading(false);
+          setRecords(artworkCount);
           setPageTotal(0);
         } else {
-          setArtLists(records);
+          setArtLists(artworks);
           setPageTotal(totalPages);
+          setRecords(artworkCount);
           setMsg("");
           setIsLoading(false);
         }
@@ -49,15 +52,17 @@ export default function ArtlistCollectionOne() {
 
   return (
     <div>
-      <h2>Victoria and Albert Museum</h2>
+      <h2>V&A Dundee Collections</h2>
       {isLoading ? (
-        <div>...Loading</div>
+        <div>Loading...</div>
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />
-          <p>
-            showing page {page} of {pageTotal}
-          </p>
+          {query ? (
+            <p>
+              {records} matches for {query}
+            </p>
+          ) : null}
           <ul>
             {artLists.map((artwork) => {
               return (
