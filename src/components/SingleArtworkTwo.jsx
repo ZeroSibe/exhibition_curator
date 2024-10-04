@@ -41,6 +41,7 @@ export default function SingleArtworkTwo() {
     setIsLoading(true);
     getArtworkTwoById(artwork_id)
       .then(({ data }) => {
+        console.log(data);
         const artwork = data.data;
         setArtwork(artwork);
         const imageUrls = getImageUrls(artwork);
@@ -121,13 +122,15 @@ export default function SingleArtworkTwo() {
 
         {artwork.current_location ? (
           <p>
-            Location: {artwork.current_location}{" "}
+            Location: {artwork.current_location}, 11150 East Blvd, Cleveland, OH
+            44106, United States.{" "}
             <Link to={artwork.url} target="_blank">
               View more details at clevelandart.org
             </Link>
           </p>
         ) : (
           <p>
+            Location: No Longer on Display.{" "}
             <Link to={artwork.url} target="_blank">
               View more details at clevelandart.org
             </Link>

@@ -60,7 +60,7 @@ export default function SingleArtworkOne() {
   const title =
     artwork.titles && artwork.titles[0]
       ? artwork.titles[0].title
-      : artwork.objectType || "Unknown Art Piece";
+      : artwork.objectType || "Unknown Art Object";
 
   const subHeading =
     artwork.titles && artwork.titles[0] ? <h3>{artwork.objectType}</h3> : null;

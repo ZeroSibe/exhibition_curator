@@ -7,6 +7,7 @@ import PageControl from "./PageControl";
 
 export default function ArtlistCollectionTwo() {
   const [artLists, setArtLists] = useState([]);
+  const [records, setRecords] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pageTotal, setPageTotal] = useState(1);
@@ -15,10 +16,6 @@ export default function ArtlistCollectionTwo() {
   const query = searchParams.get("query") || "";
   const page = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 15;
-
-  //   image filtered
-  //{info: {…}, records: Array(15), clusters: {…}}
-  //showing page 1 of 10 pageTotal
 
   useEffect(() => {
     setError("");
@@ -34,15 +31,16 @@ export default function ArtlistCollectionTwo() {
         console.log(data);
         const totalArtwork = data.info.total;
         const artworks = data.data;
-
         if (totalArtwork === 0) {
           setArtLists([]);
           setMsg("No artwork found for given search query");
           setIsLoading(false);
           setPageTotal(0);
+          setRecords(0);
         } else {
           setArtLists(artworks);
           setPageTotal(Math.ceil(totalArtwork / itemsPerPage));
+          setRecords(totalArtwork);
           setMsg("");
           setIsLoading(false);
         }
@@ -61,9 +59,11 @@ export default function ArtlistCollectionTwo() {
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />
-          <p>
-            showing page {page} of {pageTotal}
-          </p>
+          {query ? (
+            <p>
+              {records} matches for {query}
+            </p>
+          ) : null}
 
           <ul>
             {artLists.map((artwork) => {

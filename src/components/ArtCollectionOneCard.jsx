@@ -1,15 +1,20 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
 import { getFullImage } from "@/utils/utils";
+import ImageSlider from "./ImageSlider";
+import { getArtworkOneById } from "@/utils/api";
 
-export default function ArtCollectionOneCard({ artwork }) {
+export default function ArtCollectionOneCard(props) {
+  const artwork_id = props.artwork.systemNumber;
+  const [artwork, setArtwork] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]);
   const { collection, setCollection } = useContext(CollectionContext);
 
-  console.log(collection);
-
   const isInCollection = collection.some(
-    (item) => item.artwork.systemNumber === artwork.systemNumber
+    (item) => item.artwork.systemNumber === artwork_id
   );
 
   const saveToCollection = () => {
@@ -22,38 +27,58 @@ export default function ArtCollectionOneCard({ artwork }) {
 
   const removeFromCollection = () => {
     setCollection(
-      [...collection].filter(
-        (item) => item.artwork.systemNumber !== artwork.systemNumber
-      )
+      collection.filter((item) => item.artwork.systemNumber !== artwork_id)
     );
     //   //toast:
     console.log("Artwork removed from your collection!");
   };
 
-  // const creatorDescription =
-  //   artwork._primaryMaker && artwork._primaryMaker.name
-  //     ? artwork._primaryMaker.name
-  //     : "Unknown Artist";
+  useEffect(() => {
+    setError("");
+    setIsLoading(true);
+    getArtworkOneById(artwork_id)
+      .then(({ data }) => {
+        const artwork = data.record;
+        setArtwork(artwork);
+        const imageUrls = getFullImage(artwork);
+        setImageUrls(imageUrls);
+        setIsLoading(false);
+        console.log(artwork);
+      })
+      .catch(({ response }) => {
+        if (response.status === 404) {
+          setError(response.data.detail || "Artwork not found");
+        }
+        setIsLoading(false);
+      });
+  }, [artwork_id]);
 
-  const imageUrl = artwork._images
-    ? artwork._images._primary_thumbnail
-    : getFullImage(artwork);
+  const title =
+    artwork.titles && artwork.titles[0]
+      ? artwork.titles[0].title
+      : artwork.objectType || "Unknown Art Object";
+
+  const dateCreated =
+    artwork.productionDates && artwork.productionDates[0]
+      ? `${artwork.productionDates[0].date.text}`
+      : "Date made not known";
+
+  const creators = artwork.artistMakerPerson
+    ? artwork.artistMakerPerson[0]?.name.text
+    : "Unknown Artist";
 
   return (
     <div>
-      <Link
-        to={`/collections/victoria-and-albert-museum/${artwork.systemNumber}`}
-      >
-        <img src={imageUrl} alt={`Artwork of ${artwork.objectType}`} />
+      <Link to={`/collections/victoria-and-albert-museum/${artwork_id}`}>
+        <img
+          src={imageUrls.length > 0 ? imageUrls[0] : null}
+          alt={`Artwork of ${artwork.objectType}`}
+          style={{ width: "200px" }}
+        />
         <h3>
-          {artwork.objectType},{" "}
-          {artwork._primaryDate
-            ? artwork._primaryDate
-            : artwork.productionDates && artwork.productionDates[0]
-            ? `${artwork.productionDates[0].date.text}`
-            : null}
+          {title}, {dateCreated}
         </h3>
-        {/* <p>{creatorDescription}</p> */}
+        <p>{creators}</p>
       </Link>
 
       {isInCollection ? (

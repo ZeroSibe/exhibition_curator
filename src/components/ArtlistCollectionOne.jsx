@@ -7,6 +7,7 @@ import PageControl from "./PageControl";
 
 export default function ArtlistCollectionOne() {
   const [artLists, setArtLists] = useState([]);
+  const [records, setRecords] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pageTotal, setPageTotal] = useState(1);
@@ -15,9 +16,6 @@ export default function ArtlistCollectionOne() {
   const query = searchParams.get("query") || "";
   const page = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 15;
-
-  //   infor.page 1 of  info.pages 665 of results = data.info.record_count
-  //{info: {…}, records: Array(15), clusters: {…}}
 
   useEffect(() => {
     setError("");
@@ -29,16 +27,19 @@ export default function ArtlistCollectionOne() {
       )
       .then(({ data }) => {
         console.log(data);
-        const records = data.records;
+        const artworks = data.records;
         let totalPages = data.info.pages;
-        if (records.length === 0) {
+        const artworkCount = data.info.record_count;
+        if (artworks.length === 0) {
           setArtLists([]);
           setMsg("No artwork found for given search query");
           setIsLoading(false);
+          setRecords(artworkCount);
           setPageTotal(0);
         } else {
-          setArtLists(records);
+          setArtLists(artworks);
           setPageTotal(totalPages);
+          setRecords(artworkCount);
           setMsg("");
           setIsLoading(false);
         }
@@ -57,9 +58,11 @@ export default function ArtlistCollectionOne() {
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />
-          <p>
-            showing page {page} of {pageTotal}
-          </p>
+          {query ? (
+            <p>
+              {records} matches for {query}
+            </p>
+          ) : null}
           <ul>
             {artLists.map((artwork) => {
               return (
