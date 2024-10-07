@@ -34,6 +34,14 @@ body {
   z-index: 100;
 }
 
+.header-nav-menu {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 /* Image Modal */
 .modal-overlay {
   position: fixed;
