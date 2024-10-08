@@ -20,25 +20,25 @@ export default function Header() {
 
         <menu className="space-x-4 items-center justify-center hidden md:block ">
           <Link
-            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4 hover:text-primary"
+            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4 hover:text-black"
             to="/"
           >
             Home
           </Link>
           <Link
-            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4 hover:text-primary"
+            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4 hover:text-black"
             to="/collections"
           >
             Collections
           </Link>
           <Link
-            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4 hover:text-primary"
+            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4  hover:text-black"
             to="/my-collection"
           >
             My Collection
           </Link>
           <Link
-            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4 hover:text-primary"
+            className="font-medium hover:scale-105 transition-all cursor-pointer py-1.5 px-4  hover:text-black"
             to="/login"
           >
             Login
@@ -63,25 +63,25 @@ export default function Header() {
       {isActive && (
         <menu className="md:hidden flex flex-col space-y-4 text-white mt-4">
           <Link
-            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer hover:text-primary"
+            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer  hover:text-black"
             to="/"
           >
             Home
           </Link>
           <Link
-            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer hover:text-primary"
+            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer  hover:text-black"
             to="/collections"
           >
             Collections
           </Link>
           <Link
-            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer hover:text-primary"
+            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer  hover:text-black"
             to="/my-collection"
           >
             My Collection
           </Link>
           <Link
-            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer hover:text-primary"
+            className="hover:bg-blue-600 py-1.5 px-4 cursor-pointer  hover:text-black"
             to="/login"
           >
             Login
