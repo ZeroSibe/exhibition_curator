@@ -1,0 +1,47 @@
+.collections__wrapper {
+  margin: 2rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
+
+.collection__card {
+  box-shadow: 0 0 10px 5px #e1e5ee;
+  border-radius: 0.2rem;
+  min-width: 18.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection__card:hover {
+  box-shadow: 0 0 10px 5px #9eb4e9;
+}
+
+.collection__card__img {
+  max-height: 18.75rem;
+  object-fit: cover;
+}
+
+.collection_card__title {
+  line-height: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+@media screen and (min-width: 767px) {
+  .collections__wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    justify-items: center;
+  }
+
+  .collection__card {
+    flex-direction: column;
+    text-align: center;
+    min-width: 14rem;
+  }
+
+  .collection__card__img {
+    max-height: 18.75rem;
+    object-fit: cover;
+  }
+}

@@ -37,21 +37,33 @@ export default function SingleArtworkTwo() {
   };
 
   useEffect(() => {
-    setError("");
+    setError(null);
     setIsLoading(true);
+    setImageUrls([]);
+    setArtwork({});
     getArtworkTwoById(artwork_id)
       .then(({ data }) => {
-        console.log(data);
         const artwork = data.data;
         setArtwork(artwork);
         const imageUrls = getImageUrls(artwork);
         setImageUrls(imageUrls);
         setIsLoading(false);
-        console.log(data);
       })
-      .catch(({ response }) => {
-        if (response.status === 404) {
-          setError(response.data.detail || "Artwork not found");
+      .catch((err) => {
+        if (err.response) {
+          if (err.response.status === 404) {
+            setError("Artwork not found");
+          } else if (error.response.status === 500) {
+            setError("Server error, please try again later.");
+          } else {
+            setError("Could not load artwork, please try again");
+          }
+        } else if (err.request) {
+          setError(
+            "Connection Error, please check your connection and try again."
+          );
+        } else {
+          setError("Something went wrong...please try again later.");
         }
         setIsLoading(false);
       });
@@ -73,79 +85,85 @@ export default function SingleArtworkTwo() {
       <div>
         <button onClick={() => navigate(-1)}>Go Back</button>
       </div>
-      <div
-        style={{
-          maxWidth: "1200px",
-          width: "100%",
-          aspectRatio: "10/6",
-          margin: "50px auto",
-        }}
-      >
-        <ImageSlider imageUrls={imageUrls} alt={artwork.title} />
-      </div>
+
       <div>
-        <h2>{artwork.title}</h2>
-        {artwork.creation_date ? <p>{artwork.creation_date}</p> : null}
+        <div
+          style={{
+            maxWidth: "1200px",
+            width: "100%",
+            aspectRatio: "10/6",
+            margin: "50px auto",
+          }}
+        >
+          <ImageSlider imageUrls={imageUrls} alt={artwork.title} />
+        </div>
+        
+        <div>
+          <h2>{artwork.title}</h2>
+          {artwork.creation_date && <p>{artwork.creation_date}</p>}
 
-        {artwork.creators[0] ? (
-          <p>
-            {artwork.creators.map((creator) => creator.description).join(", ")}
-          </p>
+          {artwork.creators[0] ? (
+            <p>
+              {artwork.creators
+                .map((creator) => creator.description)
+                .join(", ")}
+            </p>
+          ) : (
+            "Unknown Artist"
+          )}
+
+          {artwork.culture[0] && <p>{artwork.culture[0]}</p>}
+
+          {artwork.technique && (
+            <p>
+              {" "}
+              {"Materials and Technique: "}
+              {artwork.technique}
+            </p>
+          )}
+
+          {artwork.collection && <p> {artwork.collection}</p>}
+
+          {artwork.description && (
+            <div>
+              <h3>Description</h3>
+              <p>{artwork.description}</p>
+            </div>
+          )}
+
+          {artwork.did_you_know && (
+            <div>
+              <h3>Trivia</h3> <p>{artwork.did_you_know}</p>
+            </div>
+          )}
+
+          {artwork.current_location ? (
+            <p>
+              Location: {artwork.current_location}, 11150 East Blvd, Cleveland,
+              OH 44106, United States.{" "}
+              <Link to={artwork.url} target="_blank">
+                View more details at clevelandart.org
+              </Link>
+            </p>
+          ) : (
+            <p>
+              Location: No Longer on Display.{" "}
+              <Link to={artwork.url} target="_blank">
+                View more details at clevelandart.org
+              </Link>
+            </p>
+          )}
+          {artwork.measurements && <p>{artwork.measurements}</p>}
+        </div>
+
+        {isInCollection ? (
+          <button onClick={removeFromCollection}>
+            Remove from My Collection
+          </button>
         ) : (
-          "Unknown Artist"
+          <button onClick={saveToCollection}>Save to My Collection</button>
         )}
-
-        {artwork.culture[0] ? <p>{artwork.culture[0]}</p> : null}
-
-        {artwork.technique ? (
-          <p>
-            {" "}
-            {"Materials and Technique: "}
-            {artwork.technique}
-          </p>
-        ) : null}
-
-        {artwork.collection ? <p> {artwork.collection}</p> : null}
-
-        {artwork.description ? (
-          <div>
-            <h3>Description</h3>
-            <p>{artwork.description}</p>
-          </div>
-        ) : null}
-
-        {artwork.did_you_know ? (
-          <div>
-            <h3>Trivia</h3> <p>{artwork.did_you_know}</p>
-          </div>
-        ) : null}
-
-        {artwork.current_location ? (
-          <p>
-            Location: {artwork.current_location}, 11150 East Blvd, Cleveland, OH
-            44106, United States.{" "}
-            <Link to={artwork.url} target="_blank">
-              View more details at clevelandart.org
-            </Link>
-          </p>
-        ) : (
-          <p>
-            Location: No Longer on Display.{" "}
-            <Link to={artwork.url} target="_blank">
-              View more details at clevelandart.org
-            </Link>
-          </p>
-        )}
-        {artwork.measurements ? <p>{artwork.measurements}</p> : null}
       </div>
-
-      {isInCollection ? (
-        <button onClick={removeFromCollection}>
-          Remove from My Collection
-        </button>
-      ) : (
-        <button onClick={saveToCollection}>Save to My Collection</button>
-      )}
     </div>
   );
 }

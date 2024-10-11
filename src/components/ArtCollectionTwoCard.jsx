@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
+import "./ArtCollection.css";
 
 export default function ArtCollectionTwoCard({ artwork }) {
   const { collection, setCollection } = useContext(CollectionContext);
-
-  console.log(collection);
 
   const isInCollection = collection.some(
     (item) => item.artwork.id === artwork.id
@@ -20,12 +19,7 @@ export default function ArtCollectionTwoCard({ artwork }) {
   };
 
   const removeFromCollection = () => {
-    setCollection(
-      collection.filter(
-        (item) =>
-          item.artwork.id !== artwork.id 
-      )
-    );
+    setCollection(collection.filter((item) => item.artwork.id !== artwork.id));
     //   //toast:
     console.log("Artwork removed from your collection!");
   };
@@ -36,27 +30,31 @@ export default function ArtCollectionTwoCard({ artwork }) {
       : "Unknown Artist";
 
   return (
-    <div>
+    <div className="card">
       <Link to={`/collections/cleveland-museum-of-art/${artwork.id}`}>
         <img
           src={artwork.images.web.url}
           alt={`Artwork of ${artwork.title} in the style ${artwork.technique}`}
-          style={{ width: "200px" }}
+          className="card__img"
         />
-        <h3>
+      </Link>
+      <div className="card__body">
+        <h3 className="card__title">
           {artwork.title},{" "}
           {artwork.creation_date ? artwork.creation_date : null}
         </h3>
-        <p>{creatorDescription}</p>
-      </Link>
+        <p className="card__description">{creatorDescription}</p>
 
-      {isInCollection ? (
-        <button onClick={removeFromCollection}>
-          Remove from My Collection
-        </button>
-      ) : (
-        <button onClick={saveToCollection}>Save to My Collection</button>
-      )}
+        {isInCollection ? (
+          <button className="card__btn" onClick={removeFromCollection}>
+            Remove from My Collection
+          </button>
+        ) : (
+          <button className="card__btn" onClick={saveToCollection}>
+            Save to My Collection
+          </button>
+        )}
+      </div>
     </div>
   );
 }
