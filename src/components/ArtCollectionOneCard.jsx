@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { getFullImage } from "@/utils/utils";
 import ImageSlider from "./ImageSlider";
 import { getArtworkOneById } from "@/utils/api";
+import { Separator } from "./ui/separator";
+import "./ArtCollection.css";
 
 export default function ArtCollectionOneCard(props) {
   const artwork_id = props.artwork.systemNumber;
@@ -34,8 +36,9 @@ export default function ArtCollectionOneCard(props) {
   };
 
   useEffect(() => {
-    setError("");
+    setError(null);
     setIsLoading(true);
+    setImageUrls([]);
     getArtworkOneById(artwork_id)
       .then(({ data }) => {
         const artwork = data.record;
@@ -43,12 +46,24 @@ export default function ArtCollectionOneCard(props) {
         const imageUrls = getFullImage(artwork);
         setImageUrls(imageUrls);
         setIsLoading(false);
-        console.log(artwork);
       })
-      .catch(({ response }) => {
-        if (response.status === 404) {
-          setError(response.data.detail || "Artwork not found");
+      .catch((error) => {
+        if (error.response) {
+          const msg =
+            error.response.status === 404
+              ? "Artwork not found"
+              : error.response.status === 500
+              ? "Server error, please try again later."
+              : "Could not load artwork";
+          setError(msg);
+        } else if (error.request) {
+          setError(
+            "Connection Error, please check your connection and try again."
+          );
+        } else {
+          setError("Something went wrong...please try again later.");
         }
+
         setIsLoading(false);
       });
   }, [artwork_id]);
@@ -67,27 +82,40 @@ export default function ArtCollectionOneCard(props) {
     ? artwork.artistMakerPerson[0]?.name.text
     : "Unknown Artist";
 
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className="card">
       <Link to={`/collections/victoria-and-albert-museum/${artwork_id}`}>
         <img
           src={imageUrls.length > 0 ? imageUrls[0] : null}
           alt={`Artwork of ${artwork.objectType}`}
-          style={{ width: "200px" }}
+          className="card__img"
         />
-        <h3>
+      </Link>
+      <div className="card__body">
+        <h3 className="card__title">
           {title}, {dateCreated}
         </h3>
-        <p>{creators}</p>
-      </Link>
-
-      {isInCollection ? (
-        <button onClick={removeFromCollection}>
-          Remove from My Collection
-        </button>
-      ) : (
-        <button onClick={saveToCollection}>Save to My Collection</button>
-      )}
+        <p className="card__description">{creators}</p>
+        {isInCollection ? (
+          <button onClick={removeFromCollection} className="card__btn">
+            Remove from My Collection
+          </button>
+        ) : (
+          <button className="card__btn" onClick={saveToCollection}>
+            Save to My Collection
+          </button>
+        )}
+      </div>
     </div>
   );
 }

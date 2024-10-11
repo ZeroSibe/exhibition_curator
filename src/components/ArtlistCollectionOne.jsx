@@ -4,48 +4,55 @@ import { useSearchParams } from "react-router-dom";
 import Search from "./Search";
 import ArtCollectionOneCard from "./ArtCollectionOneCard";
 import PageControl from "./PageControl";
+import "./ArtCollection.css";
 
 export default function ArtlistCollectionOne() {
   const [artLists, setArtLists] = useState([]);
   const [records, setRecords] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [pageTotal, setPageTotal] = useState(1);
   const [msg, setMsg] = useState("");
+  const [pageTotal, setPageTotal] = useState(1);
   let [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   const page = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 15;
 
   useEffect(() => {
-    setError("");
-    setIsLoading(true);
     setMsg("");
+    setError(null);
+    setIsLoading(true);
     collectionOneAPI
       .get(
         `/objects/search?q=${query}&page_size=${itemsPerPage}&page=${page}&images_exist=1&on_display_at=dundee`
       )
       .then(({ data }) => {
-        console.log(data);
         const artworks = data.records;
         let totalPages = data.info.pages;
         const artworkCount = data.info.record_count;
+
         if (artworks.length === 0) {
           setArtLists([]);
           setMsg("No artwork found for given search query");
-          setIsLoading(false);
-          setRecords(artworkCount);
           setPageTotal(0);
         } else {
           setArtLists(artworks);
           setPageTotal(totalPages);
           setRecords(artworkCount);
           setMsg("");
-          setIsLoading(false);
         }
+        setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response) {
+          setError("Failed to load the V&A Dundee collections. Please try again later.");
+        } else if (err.request) {
+          setError(
+            "Connection Error, please check your connection and try again."
+          );
+        } else {
+          setError("Something went wrong...please try again later.");
+        }
         setIsLoading(false);
       });
   }, [searchParams]);
@@ -58,28 +65,45 @@ export default function ArtlistCollectionOne() {
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />
-          {query ? (
-            <p>
-              {records} matches for {query}
-            </p>
-          ) : null}
-          <ul>
-            {artLists.map((artwork) => {
-              return (
-                <li key={artwork.systemNumber}>
-                  <ArtCollectionOneCard artwork={artwork} />
-                </li>
-              );
-            })}
-          </ul>
-          {pageTotal > 0 ? (
-            <PageControl
-              page={page}
-              setSearchParams={setSearchParams}
-              pageTotal={pageTotal}
-            />
+
+          {error ? (
+            <div>
+              <p>{error}</p>
+            </div>
           ) : (
-            <p>{msg}</p>
+            <div>
+              {msg ? (
+                <p>{msg}</p>
+              ) : (
+                query && (
+                  <p>
+                    {records > 1
+                      ? `${records} matches for ${query}`
+                      : `${records} match for ${query}`}
+                  </p>
+                )
+              )}
+
+              <ul className="wrapper">
+                {artLists.map((artwork) => {
+                  return (
+                    <div>
+                      <li key={artwork.systemNumber}>
+                        <ArtCollectionOneCard artwork={artwork} />
+                      </li>
+                    </div>
+                  );
+                })}
+              </ul>
+
+              {pageTotal > 0 && (
+                <PageControl
+                  page={page}
+                  setSearchParams={setSearchParams}
+                  pageTotal={pageTotal}
+                />
+              )}
+            </div>
           )}
         </div>
       )}

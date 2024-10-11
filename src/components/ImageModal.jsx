@@ -1,4 +1,5 @@
 import React from "react";
+import "./image-modal.css";
 
 export default function ImageModal({ imageUrl, title, onClose }) {
   if (!imageUrl) return null;

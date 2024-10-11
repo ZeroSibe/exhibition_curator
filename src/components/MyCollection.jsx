@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ArtCollectionTwoCard from "./ArtCollectionTwoCard";
 import { CollectionContext } from "../contexts/Collection";
 import ArtCollectionOneCard from "./ArtCollectionOneCard";
+import "./ArtCollection.css";
 
 export default function MyCollection() {
   const { collection } = useContext(CollectionContext);
@@ -14,7 +15,7 @@ export default function MyCollection() {
   return (
     <div>
       <h1>My Collection</h1>
-      <ul>
+      <ul className="wrapper">
         {collection.map(({ artwork, collection_type }) => {
           return collection_type === "two" ? (
             <li key={artwork.id}>

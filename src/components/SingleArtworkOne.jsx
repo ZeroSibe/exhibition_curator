@@ -14,8 +14,6 @@ export default function SingleArtworkOne() {
   const [imageUrls, setImageUrls] = useState([]);
   const { collection, setCollection } = useContext(CollectionContext);
 
-  console.log(collection);
-
   const isInCollection = collection.some(
     (item) => item.artwork.systemNumber === artwork_id
   );
@@ -37,8 +35,10 @@ export default function SingleArtworkOne() {
   };
 
   useEffect(() => {
-    setError("");
+    setError(null);
     setIsLoading(true);
+    setImageUrls([]);
+    setArtwork({});
     getArtworkOneById(artwork_id)
       .then(({ data }) => {
         const artwork = data.record;
@@ -46,13 +46,24 @@ export default function SingleArtworkOne() {
         const imageUrls = getFullImage(artwork);
         setImageUrls(imageUrls);
         setIsLoading(false);
-
-        console.dir(data);
       })
-      .catch(({ response }) => {
-        if (response.status === 404) {
-          setError(response.data.detail || "Artwork not found");
+      .catch((error) => {
+        if (error.response) {
+          const msg =
+            error.response.status === 404
+              ? "Artwork not found"
+              : error.response.status === 500
+              ? "Server error, please try again later."
+              : "Could not load artwork";
+          setError(msg);
+        } else if (error.request) {
+          setError(
+            "Connection Error, please check your connection and try again."
+          );
+        } else {
+          setError("Something went wrong...please try again later.");
         }
+
         setIsLoading(false);
       });
   }, [artwork_id]);
@@ -128,6 +139,7 @@ export default function SingleArtworkOne() {
       <div>
         <button onClick={() => navigate(-1)}>Go Back</button>
       </div>
+
       <div
         style={{
           maxWidth: "1200px",
@@ -145,6 +157,7 @@ export default function SingleArtworkOne() {
           }
         />
       </div>
+
       <div>
         <h2>{title}</h2>
         {subHeading}
