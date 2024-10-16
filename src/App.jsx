@@ -9,10 +9,12 @@ import ArtlistCollectionOne from "./components/ArtlistCollectionOne";
 import ArtlistCollectionTwo from "./components/ArtlistCollectionTwo";
 import SingleArtworkOne from "./components/SingleArtworkOne";
 import SingleArtworkTwo from "./components/SingleArtworkTwo";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   return (
     <div>
+      <Toaster />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

@@ -52,8 +52,9 @@
 }
 
 .card__btn:hover {
-  color: #0e48fe;
+  color: #3b82f6;
 }
+
 
 @media screen and (min-width: 767px) {
   .wrapper {

@@ -5,6 +5,8 @@ import Search from "./Search";
 import ArtCollectionOneCard from "./ArtCollectionOneCard";
 import PageControl from "./PageControl";
 import "./ArtCollection.css";
+import LoadingSpinner from "./LoadingSpinner";
+import { AlertDestructive } from "./AlertDestructive";
 
 export default function ArtlistCollectionOne() {
   const [artLists, setArtLists] = useState([]);
@@ -45,11 +47,11 @@ export default function ArtlistCollectionOne() {
       })
       .catch((err) => {
         if (err.response) {
-          setError("Failed to load the V&A Dundee collections. Please try again later.");
-        } else if (err.request) {
           setError(
-            "Connection Error, please check your connection and try again."
+            "Failed to load the V&A Dundee collections. Please try again later."
           );
+        } else if (err.request) {
+          setError("Please check your connection and try again.");
         } else {
           setError("Something went wrong...please try again later.");
         }
@@ -61,14 +63,16 @@ export default function ArtlistCollectionOne() {
     <div>
       <h2>V&A Dundee Collections</h2>
       {isLoading ? (
-        <div>Loading...</div>
+        <div className="spinner-container">
+          <LoadingSpinner />
+        </div>
       ) : (
         <div>
           <Search setSearchParams={setSearchParams} query={query} />
 
           {error ? (
-            <div>
-              <p>{error}</p>
+            <div className="mt-4">
+              <AlertDestructive msg={error} />
             </div>
           ) : (
             <div>
@@ -87,11 +91,9 @@ export default function ArtlistCollectionOne() {
               <ul className="wrapper">
                 {artLists.map((artwork) => {
                   return (
-                    <div>
-                      <li key={artwork.systemNumber}>
-                        <ArtCollectionOneCard artwork={artwork} />
-                      </li>
-                    </div>
+                    <li key={artwork.systemNumber}>
+                      <ArtCollectionOneCard artwork={artwork} />
+                    </li>
                   );
                 })}
               </ul>

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from "lucide-react";
 import "./image-slider.css";
 import ImageModal from "./ImageModal";
+import { FaExpand } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
 
 export default function ImageSlider({ imageUrls, alt }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -37,13 +39,10 @@ export default function ImageSlider({ imageUrls, alt }) {
       <a href="#end-of-image" className="skip-link">
         Skip Image
       </a>
-      <button onClick={() => openModal(imageUrls[imageIndex])} aria-label="click to view full image">
-        View Full Image
-      </button>
+
       <div
         style={{
           width: "100%",
-          height: "100%",
           display: "flex",
           overflow: "hidden",
         }}
@@ -100,6 +99,15 @@ export default function ImageSlider({ imageUrls, alt }) {
           </button>
         ))}
       </div>
+      <Button
+        variant="outline"
+        aria-label="click to view full image"
+        onClick={() => openModal(imageUrls[imageIndex])}
+        className="flex items-center justify-between hover:text-[#3b82f6] gap-x-2"
+      >
+        Expand Image
+        <FaExpand aria-hidden />
+      </Button>
 
       {selectedImage && (
         <ImageModal
@@ -108,6 +116,7 @@ export default function ImageSlider({ imageUrls, alt }) {
           onClose={closeModal}
         />
       )}
+
       <div id="end-of-image"></div>
     </section>
   );

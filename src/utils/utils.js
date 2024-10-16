@@ -24,3 +24,9 @@ export const getFullImage = (artwork) => {
   }
   return imageUrls;
 };
+
+export const truncateTitle = (title, maxLength) => {
+  return title.length > maxLength
+    ? title.substring(0, maxLength) + "..."
+    : title;
+};

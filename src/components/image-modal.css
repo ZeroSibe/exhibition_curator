@@ -7,29 +7,38 @@
   background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
-  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
 }
 
 .modal-content {
   position: relative;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90vw;
+  max-height: none;
+  margin: auto;
 }
 
 .modal-image {
   width: 100%;
   height: auto;
   border-radius: 8px;
+  object-fit: contain;
 }
 
 .close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #fff;
   border: none;
   padding: 10px;
   cursor: pointer;
   font-size: 16px;
   border-radius: 50%;
+  color: white;
+  z-index: 1001;
+}
+
+.close-button:hover,
+.close-button:focus-visible {
+  color: #3b82f6;
 }

@@ -2,9 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
 import "./ArtCollection.css";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ArtCollectionTwoCard({ artwork }) {
   const { collection, setCollection } = useContext(CollectionContext);
+  const { toast } = useToast();
 
   const isInCollection = collection.some(
     (item) => item.artwork.id === artwork.id
@@ -13,15 +15,23 @@ export default function ArtCollectionTwoCard({ artwork }) {
   const saveToCollection = () => {
     if (!isInCollection) {
       setCollection([...collection, { artwork, collection_type: "two" }]);
-      //   //toast: Artwork added to your temp collection
-      console.log("Artwork added to you temporary collection");
+      toast({
+        title: "Added to My Collection",
+        description: `${
+          artwork?.title || "This Artwork"
+        } has been added to your temporary collection`,
+      });
     }
   };
 
   const removeFromCollection = () => {
     setCollection(collection.filter((item) => item.artwork.id !== artwork.id));
-    //   //toast:
-    console.log("Artwork removed from your collection!");
+    toast({
+      title: "Removed from My Collection",
+      description: `${
+        artwork?.title || "This Artwork"
+      } has been removed from your temporary collection`,
+    });
   };
 
   const creatorDescription =
@@ -43,7 +53,6 @@ export default function ArtCollectionTwoCard({ artwork }) {
           {artwork.title},{" "}
           {artwork.creation_date ? artwork.creation_date : null}
         </h3>
-        <p className="card__description">{creatorDescription}</p>
 
         {isInCollection ? (
           <button className="card__btn" onClick={removeFromCollection}>
