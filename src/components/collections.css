@@ -26,6 +26,7 @@
 .collection_card__title {
   line-height: 1.4rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 @media screen and (min-width: 767px) {

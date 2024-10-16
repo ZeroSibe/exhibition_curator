@@ -12,7 +12,7 @@ export default function Collections() {
             <img
               className="collection__card__img"
               src="./V&ADundee.png"
-              alt="V&A Dundee museum looking like the ribbed carcass of a beached whale in the night sky."
+              alt="A view of the V&A Dundee museum looking like the ribbed carcass of a beached whale in the night sky."
             />
             <h3 className="collection_card__title">V&A Dundee Collection</h3>
           </section>

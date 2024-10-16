@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AlignJustify } from "lucide-react";
+import { RiCloseLargeFill } from "react-icons/ri";
 
 export default function Header() {
   const [isActive, setIsActive] = useState(false);
@@ -57,7 +58,7 @@ export default function Header() {
           className={`${isActive ? "block" : "hidden"} md:hidden`}
           aria-label="close navigation menu"
         >
-          X
+          <RiCloseLargeFill aria-hidden />
         </button>
       </nav>
       {isActive && (

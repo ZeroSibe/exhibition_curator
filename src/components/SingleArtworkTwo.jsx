@@ -4,6 +4,19 @@ import { getArtworkTwoById } from "../utils/api";
 import ImageSlider from "./ImageSlider";
 import { getImageUrls } from "../utils/utils";
 import { CollectionContext } from "../contexts/Collection";
+import { useToast } from "@/hooks/use-toast";
+import { AlertDestructive } from "./AlertDestructive";
+import LoadingSpinner from "./LoadingSpinner";
+import { Button } from "@/components/ui/button";
+import { IoIosArrowBack } from "react-icons/io";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { HiMiniChevronUpDown } from "react-icons/hi2";
+
+import "./SingleArtwork.css";
 
 export default function SingleArtworkTwo() {
   const { artwork_id } = useParams();
@@ -13,6 +26,7 @@ export default function SingleArtworkTwo() {
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState([]);
   const { collection, setCollection } = useContext(CollectionContext);
+  const { toast } = useToast();
 
   const isInCollection = collection.some(
     (item) => Number(item.artwork.id) === Number(artwork_id)
@@ -21,8 +35,12 @@ export default function SingleArtworkTwo() {
   const saveToCollection = () => {
     if (!isInCollection) {
       setCollection([...collection, { artwork, collection_type: "two" }]);
-      //   //toast: Artwork added to your temp collection
-      console.log("Artwork added to you temporary collection");
+      toast({
+        title: "Added to My Collection",
+        description: `${
+          artwork?.title || "This Artwork"
+        } has been added to your temporary collection`,
+      });
     }
   };
 
@@ -32,8 +50,12 @@ export default function SingleArtworkTwo() {
         (item) => Number(item.artwork.id) !== Number(artwork_id)
       )
     );
-    //   //toast:
-    console.log("Artwork removed from your collection!");
+    toast({
+      title: "Removed from My Collection",
+      description: `${
+        artwork?.title || "This Artwork"
+      } has been removed from your temporary collection`,
+    });
   };
 
   useEffect(() => {
@@ -69,101 +91,156 @@ export default function SingleArtworkTwo() {
       });
   }, [artwork_id]);
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (error) {
+  if (isLoading)
     return (
-      <div>
-        <p>{error}</p>
-        <button onClick={() => navigate(-1)}>Go Back</button>
+      <div className="spinner-container">
+        <LoadingSpinner />
       </div>
     );
-  }
 
   return (
     <div>
       <div>
-        <button onClick={() => navigate(-1)}>Go Back</button>
+        <Button onClick={() => navigate(-1)} variant="link">
+          <IoIosArrowBack aria-hidden />
+          Go Back
+        </Button>
       </div>
-
-      <div>
-        <div
-          style={{
-            maxWidth: "1200px",
-            width: "100%",
-            aspectRatio: "10/6",
-            margin: "50px auto",
-          }}
-        >
-          <ImageSlider imageUrls={imageUrls} alt={artwork.title} />
+      {error ? (
+        <div className="mt-4">
+          <AlertDestructive msg={error} />
         </div>
-        
-        <div>
-          <h2>{artwork.title}</h2>
-          {artwork.creation_date && <p>{artwork.creation_date}</p>}
+      ) : (
+        <div className="singleArtwork_wrapper">
+          <div
+            style={{
+              flex: "1 1 50%",
+              maxWidth: "600px",
+            }}
+          >
+            <ImageSlider imageUrls={imageUrls} alt={artwork.title} />
+          </div>
 
-          {artwork.creators[0] ? (
-            <p>
-              {artwork.creators
-                .map((creator) => creator.description)
-                .join(", ")}
-            </p>
-          ) : (
-            "Unknown Artist"
-          )}
+          <div style={{ flex: "1 1 50%" }}>
+            <h2 className="singleArtwork_largeHeading">{artwork.title}</h2>
 
-          {artwork.culture[0] && <p>{artwork.culture[0]}</p>}
+            {artwork.culture[0] && (
+              <p className="singleArtwork_subHeading">{artwork.culture[0]}</p>
+            )}
 
-          {artwork.technique && (
-            <p>
-              {" "}
-              {"Materials and Technique: "}
-              {artwork.technique}
-            </p>
-          )}
+            {artwork.creators && artwork.creators[0] ? (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Artist</h3>
+                <p>
+                  {artwork.creators
+                    .map((creator) => creator.description)
+                    .join(", ")}
+                </p>
+              </div>
+            ) : (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Artist</h3>
+                <p>Unknown Artist</p>
+              </div>
+            )}
 
-          {artwork.collection && <p> {artwork.collection}</p>}
+            {artwork.creation_date && (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Date</h3>
+                <p>{artwork.creation_date}</p>
+              </div>
+            )}
 
-          {artwork.description && (
-            <div>
-              <h3>Description</h3>
-              <p>{artwork.description}</p>
-            </div>
-          )}
+            {artwork.technique && (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">
+                  Materials and Techniques
+                </h3>
+                <p>{artwork.technique}</p>
+              </div>
+            )}
 
-          {artwork.did_you_know && (
-            <div>
-              <h3>Trivia</h3> <p>{artwork.did_you_know}</p>
-            </div>
-          )}
+            {artwork.measurements && (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Dimensions</h3>
+                <p>{artwork.measurements}</p>
+              </div>
+            )}
 
-          {artwork.current_location ? (
-            <p>
-              Location: {artwork.current_location}, 11150 East Blvd, Cleveland,
-              OH 44106, United States.{" "}
-              <Link to={artwork.url} target="_blank">
-                View more details at clevelandart.org
-              </Link>
-            </p>
-          ) : (
-            <p>
-              Location: No Longer on Display.{" "}
-              <Link to={artwork.url} target="_blank">
-                View more details at clevelandart.org
-              </Link>
-            </p>
-          )}
-          {artwork.measurements && <p>{artwork.measurements}</p>}
+            {artwork.collection && (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading"> Collection</h3>
+                <p> {artwork.collection}</p>
+              </div>
+            )}
+
+            {artwork.description && (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Description</h3>
+                <p dangerouslySetInnerHTML={{ __html: artwork.description }} />
+              </div>
+            )}
+
+            {artwork.did_you_know && (
+              <div className="singleArtwork_margins">
+                <Collapsible className="w-[350px] space-y-2">
+                  <CollapsibleTrigger className="flex items-center justify-between hover:text-[#3b82f6]">
+                    <h4 className="text-sm font-semibold">View More Details</h4>
+                    <HiMiniChevronUpDown className="w-5 h-5" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="space-y-2">
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: artwork.did_you_know,
+                      }}
+                    />
+                  </CollapsibleContent>
+                </Collapsible>
+              </div>
+            )}
+
+            {artwork.current_location ? (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Location</h3>
+                <p>
+                  On display at {artwork.current_location}, 11150 East Blvd,
+                  Cleveland, OH 44106, United States.{" "}
+                </p>
+                <p>
+                  View more details at
+                  <Link to={artwork.url} target="_blank">
+                    <Button variant="link">clevelandart.org</Button>
+                  </Link>
+                </p>
+              </div>
+            ) : (
+              <div className="singleArtwork_margins">
+                <h3 className="singleArtwork_medHeading">Location</h3>
+                <p>No Longer on Display. </p>
+                <p>
+                  View more details at
+                  <Link to={artwork.url} target="_blank">
+                    <Button variant="link">clevelandart.org</Button>
+                  </Link>
+                </p>
+              </div>
+            )}
+
+            {isInCollection ? (
+              <button
+                onClick={removeFromCollection}
+                className="singleArtwork_btn"
+              >
+                Remove from My Collection
+              </button>
+            ) : (
+              <button onClick={saveToCollection} className="singleArtwork_btn">
+                Save to My Collection
+              </button>
+            )}
+          </div>
         </div>
-
-        {isInCollection ? (
-          <button onClick={removeFromCollection}>
-            Remove from My Collection
-          </button>
-        ) : (
-          <button onClick={saveToCollection}>Save to My Collection</button>
-        )}
-      </div>
+      )}
     </div>
   );
 }

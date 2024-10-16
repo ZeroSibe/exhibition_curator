@@ -1,11 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
-import { getFullImage } from "@/utils/utils";
+import { getFullImage, truncateTitle } from "@/utils/utils";
 import ImageSlider from "./ImageSlider";
 import { getArtworkOneById } from "@/utils/api";
 import { Separator } from "./ui/separator";
+import { useToast } from "@/hooks/use-toast";
+
 import "./ArtCollection.css";
+import { SkeletonCard } from "./SkeletonCard";
 
 export default function ArtCollectionOneCard(props) {
   const artwork_id = props.artwork.systemNumber;
@@ -14,6 +17,7 @@ export default function ArtCollectionOneCard(props) {
   const [error, setError] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
   const { collection, setCollection } = useContext(CollectionContext);
+  const { toast } = useToast();
 
   const isInCollection = collection.some(
     (item) => item.artwork.systemNumber === artwork_id
@@ -22,8 +26,12 @@ export default function ArtCollectionOneCard(props) {
   const saveToCollection = () => {
     if (!isInCollection) {
       setCollection([...collection, { artwork, collection_type: "one" }]);
-      //   //toast: Artwork added to your temp collection
-      console.log("Artwork added to you temporary collection");
+      toast({
+        title: "Added to My Collection",
+        description: `${
+          artwork.titles[0]?.title || "This Artwork"
+        } has been added to your temporary collection`,
+      });
     }
   };
 
@@ -31,8 +39,12 @@ export default function ArtCollectionOneCard(props) {
     setCollection(
       collection.filter((item) => item.artwork.systemNumber !== artwork_id)
     );
-    //   //toast:
-    console.log("Artwork removed from your collection!");
+    toast({
+      title: "Removed from My Collection",
+      description: `${
+        artwork.titles[0]?.title || "This Artwork"
+      } has been removed from your temporary collection`,
+    });
   };
 
   useEffect(() => {
@@ -70,7 +82,7 @@ export default function ArtCollectionOneCard(props) {
 
   const title =
     artwork.titles && artwork.titles[0]
-      ? artwork.titles[0].title
+      ? truncateTitle(artwork.titles[0].title, 35)
       : artwork.objectType || "Unknown Art Object";
 
   const dateCreated =
@@ -82,7 +94,12 @@ export default function ArtCollectionOneCard(props) {
     ? artwork.artistMakerPerson[0]?.name.text
     : "Unknown Artist";
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="loading-skeleton">
+        <SkeletonCard />
+      </div>
+    );
 
   if (error) {
     return (
@@ -105,7 +122,7 @@ export default function ArtCollectionOneCard(props) {
         <h3 className="card__title">
           {title}, {dateCreated}
         </h3>
-        <p className="card__description">{creators}</p>
+
         {isInCollection ? (
           <button onClick={removeFromCollection} className="card__btn">
             Remove from My Collection
