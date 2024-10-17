@@ -15,12 +15,16 @@ export const getImageUrls = (artwork) => {
 
 export const getFullImage = (artwork) => {
   const imageUrls = [];
-  if (artwork.images) {
+  if (artwork.images && artwork.images.length > 0) {
     artwork.images.forEach((imgId) => {
       imageUrls.push(
         `https://framemark.vam.ac.uk/collections/${imgId}/full/full/0/default.jpg`
       );
     });
+  } else if (artwork._primaryImageId) {
+    imageUrls.push(
+      `https://framemark.vam.ac.uk/collections/${artwork._primaryImageId}/full/full/0/default.jpg`
+    );
   }
   return imageUrls;
 };

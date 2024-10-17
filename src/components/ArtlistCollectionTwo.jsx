@@ -35,7 +35,7 @@ export default function ArtlistCollectionTwo() {
         const artworks = data.data;
         if (totalArtwork === 0) {
           setArtLists([]);
-          setMsg("No artwork found for given search query");
+          setMsg("No Results Found");
           setPageTotal(0);
           setRecords(0);
         } else {
@@ -78,7 +78,9 @@ export default function ArtlistCollectionTwo() {
           ) : (
             <div>
               {msg ? (
-                <p>{msg}</p>
+                <div className="artlist_msg">
+                  <h3>{msg}</h3>
+                </div>
               ) : (
                 query && (
                   <p>
