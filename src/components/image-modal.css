@@ -9,6 +9,7 @@
   justify-content: center;
   z-index: 1000;
   overflow-y: auto;
+  cursor: url("/src/assets/shrinkIcon.svg"), auto;
 }
 
 .modal-content {
@@ -16,6 +17,7 @@
   max-width: 90vw;
   max-height: none;
   margin: auto;
+  cursor: auto;
 }
 
 .modal-image {

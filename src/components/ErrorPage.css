@@ -1,0 +1,27 @@
+.error_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 48px 5px 32px;
+}
+
+.error_title {
+  font-size: 50px;
+}
+
+.error_text {
+  font-size: 18px;
+  line-height: 1.75rem;
+}
+
+.error_link {
+  text-decoration: none;
+  color: #3b82f6;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease;
+}
+
+.error_link:hover,
+.error_link:focus {
+  text-decoration: underline;
+}

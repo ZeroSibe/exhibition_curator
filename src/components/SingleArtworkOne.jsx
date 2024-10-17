@@ -14,9 +14,9 @@ import { HiMiniChevronUpDown } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import { IoIosArrowBack } from "react-icons/io";
 
-import "./SingleArtwork.css";
 import { AlertDestructive } from "./AlertDestructive";
 import LoadingSpinner from "./LoadingSpinner";
+import "./SingleArtwork.css";
 
 export default function SingleArtworkOne() {
   const { artwork_id } = useParams();
@@ -154,7 +154,13 @@ export default function SingleArtworkOne() {
         </div>
       ) : (
         <div className="singleArtwork_wrapper">
-          <div className="singleArtwork_image">
+          
+          <div
+            style={{
+              flex: "1 1 50%",
+              maxWidth: "600px",
+            }}
+          >
             <ImageSlider
               imageUrls={imageUrls}
               alt={
@@ -165,7 +171,9 @@ export default function SingleArtworkOne() {
             />
           </div>
 
-          <div className="singleArtwork_content">
+
+
+          <div style={{ flex: "1 1 50%" }}>
             <h2 className="singleArtwork_largeHeading">{title}</h2>
 
             {subHeading}

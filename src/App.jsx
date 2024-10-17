@@ -10,6 +10,8 @@ import ArtlistCollectionTwo from "./components/ArtlistCollectionTwo";
 import SingleArtworkOne from "./components/SingleArtworkOne";
 import SingleArtworkTwo from "./components/SingleArtworkTwo";
 import { Toaster } from "@/components/ui/toaster";
+import ErrorPage from "./components/ErrorPage";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
         />
         <Route path="/my-collection" element={<MyCollection />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

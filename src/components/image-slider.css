@@ -3,8 +3,8 @@
   box-sizing: border-box;
 }
 .img-slider-img {
-  object-fit: contain;
-  width: auto;
+  object-fit: cover;
+  width: 100%;
   max-width: 100%;
   max-height: 80vh;
   display: block;
@@ -12,6 +12,7 @@
   flex-shrink: 0;
   flex-grow: 0;
   transition: translate 300ms ease-in-out;
+  cursor: url("/src/assets/expandIcon.svg"), auto;
 }
 
 .img-slider-btn {

@@ -43,6 +43,7 @@ export default function ImageSlider({ imageUrls, alt }) {
       <div
         style={{
           width: "100%",
+          height: "100%",
           display: "flex",
           overflow: "hidden",
         }}
@@ -55,6 +56,8 @@ export default function ImageSlider({ imageUrls, alt }) {
             aria-hidden={imageIndex !== index}
             className="img-slider-img"
             style={{ translate: `${-100 * imageIndex}%` }}
+            onClick={() => openModal(imageUrls[imageIndex])}
+            aria-label="click to view full image"
           />
         ))}
       </div>
@@ -99,15 +102,8 @@ export default function ImageSlider({ imageUrls, alt }) {
           </button>
         ))}
       </div>
-      <Button
-        variant="outline"
-        aria-label="click to view full image"
-        onClick={() => openModal(imageUrls[imageIndex])}
-        className="flex items-center justify-between hover:text-[#3b82f6] gap-x-2"
-      >
-        Expand Image
-        <FaExpand aria-hidden />
-      </Button>
+
+  
 
       {selectedImage && (
         <ImageModal

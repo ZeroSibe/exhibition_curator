@@ -10,12 +10,8 @@ import { useToast } from "@/hooks/use-toast";
 import "./ArtCollection.css";
 import { SkeletonCard } from "./SkeletonCard";
 
-export default function ArtCollectionOneCard(props) {
-  const artwork_id = props.artwork.systemNumber;
-  const [artwork, setArtwork] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [imageUrls, setImageUrls] = useState([]);
+export default function ArtCollectionOneCard({ artwork }) {
+  const artwork_id = artwork.systemNumber;
   const { collection, setCollection } = useContext(CollectionContext);
   const { toast } = useToast();
 
@@ -29,7 +25,7 @@ export default function ArtCollectionOneCard(props) {
       toast({
         title: "Added to My Collection",
         description: `${
-          artwork.titles[0]?.title || "This Artwork"
+          artwork._primaryTitle || "This Artwork"
         } has been added to your temporary collection`,
       });
     }
@@ -42,78 +38,32 @@ export default function ArtCollectionOneCard(props) {
     toast({
       title: "Removed from My Collection",
       description: `${
-        artwork.titles[0]?.title || "This Artwork"
+        artwork._primaryTitle || "This Artwork"
       } has been removed from your temporary collection`,
     });
   };
 
-  useEffect(() => {
-    setError(null);
-    setIsLoading(true);
-    setImageUrls([]);
-    getArtworkOneById(artwork_id)
-      .then(({ data }) => {
-        const artwork = data.record;
-        setArtwork(artwork);
-        const imageUrls = getFullImage(artwork);
-        setImageUrls(imageUrls);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        if (error.response) {
-          const msg =
-            error.response.status === 404
-              ? "Artwork not found"
-              : error.response.status === 500
-              ? "Server error, please try again later."
-              : "Could not load artwork";
-          setError(msg);
-        } else if (error.request) {
-          setError(
-            "Connection Error, please check your connection and try again."
-          );
-        } else {
-          setError("Something went wrong...please try again later.");
-        }
+  const title = artwork._primaryTitle
+    ? truncateTitle(artwork._primaryTitle, 35)
+    : artwork.titles && artwork.titles[0]
+    ? truncateTitle(artwork.titles[0].title, 35)
+    : artwork.objectType || "Unknown Art Object";
 
-        setIsLoading(false);
-      });
-  }, [artwork_id]);
+  const dateCreated = artwork._primaryDate
+    ? `${artwork._primaryDate}`
+    : artwork.productionDates && artwork.productionDates[0]
+    ? `${artwork.productionDates[0].date.text}`
+    : "Date made not known";
 
-  const title =
-    artwork.titles && artwork.titles[0]
-      ? truncateTitle(artwork.titles[0].title, 35)
-      : artwork.objectType || "Unknown Art Object";
-
-  const dateCreated =
-    artwork.productionDates && artwork.productionDates[0]
-      ? `${artwork.productionDates[0].date.text}`
-      : "Date made not known";
-
-  const creators = artwork.artistMakerPerson
-    ? artwork.artistMakerPerson[0]?.name.text
-    : "Unknown Artist";
-
-  if (isLoading)
-    return (
-      <div className="loading-skeleton">
-        <SkeletonCard />
-      </div>
-    );
-
-  if (error) {
-    return (
-      <div>
-        <p>{error}</p>
-      </div>
-    );
-  }
+  const imageUrl = artwork._primaryImageId
+    ? `https://framemark.vam.ac.uk/collections/${artwork._primaryImageId}/full/full/0/default.jpg`
+    : getFullImage(artwork)[0];
 
   return (
     <div className="card">
       <Link to={`/collections/victoria-and-albert-museum/${artwork_id}`}>
         <img
-          src={imageUrls.length > 0 ? imageUrls[0] : null}
+          src={imageUrl ? imageUrl : artwork._images._primary_thumbnail}
           alt={`Artwork of ${artwork.objectType}`}
           className="card__img"
         />
