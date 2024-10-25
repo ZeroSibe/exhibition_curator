@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { collectionTwoAPI } from "../utils/api";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Search from "./Search";
 import ArtCollectionTwoCard from "./ArtCollectionTwoCard";
 import PageControl from "./PageControl";
 import "./ArtCollection.css";
 import LoadingSpinner from "./LoadingSpinner";
 import { AlertDestructive } from "./AlertDestructive";
+import { IoIosArrowBack } from "react-icons/io";
+import { Button } from "@/components/ui/button";
 
 export default function ArtlistCollectionTwo() {
   const [artLists, setArtLists] = useState([]);
@@ -16,6 +18,7 @@ export default function ArtlistCollectionTwo() {
   const [msg, setMsg] = useState("");
   const [pageTotal, setPageTotal] = useState(1);
   let [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const query = searchParams.get("query") || "";
   const page = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 15;
@@ -62,7 +65,19 @@ export default function ArtlistCollectionTwo() {
 
   return (
     <div>
-      <h2>The Cleveland Museum of Art Collections</h2>
+      <div className="mt-2">
+        <Button
+          onClick={() => navigate("/collections")}
+          variant="link"
+          aria-label="go to Collections"
+        >
+          <IoIosArrowBack aria-hidden />
+          Back to Collections
+        </Button>
+      </div>
+      <h2 className="text-[30px] font-bold py-20 px-10">
+        The Cleveland Museum of Art Collections
+      </h2>
       {isLoading ? (
         <div className="spinner-container">
           <LoadingSpinner />
@@ -83,7 +98,7 @@ export default function ArtlistCollectionTwo() {
                 </div>
               ) : (
                 query && (
-                  <p>
+                  <p className="font-bold py-10 px-2">
                     {records > 1
                       ? `${records} matches for ${query}`
                       : `${records} match for ${query}`}

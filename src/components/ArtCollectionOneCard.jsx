@@ -60,25 +60,34 @@ export default function ArtCollectionOneCard({ artwork }) {
     : getFullImage(artwork)[0];
 
   return (
+    
     <div className="card">
       <Link to={`/collections/victoria-and-albert-museum/${artwork_id}`}>
         <img
           src={imageUrl ? imageUrl : artwork._images._primary_thumbnail}
-          alt={`Artwork of ${artwork.objectType}`}
+          alt={`Artwork ${artwork.systemNumber} of ${artwork.objectType}`}
           className="card__img"
         />
       </Link>
       <div className="card__body">
-        <h3 className="card__title">
+        <h2 className="card__title">
           {title}, {dateCreated}
-        </h3>
+        </h2>
 
         {isInCollection ? (
-          <button onClick={removeFromCollection} className="card__btn">
+          <button
+            onClick={removeFromCollection}
+            className="card__btn"
+            aria-label="remove artwork from My Collection"
+          >
             Remove from My Collection
           </button>
         ) : (
-          <button className="card__btn" onClick={saveToCollection}>
+          <button
+            className="card__btn"
+            onClick={saveToCollection}
+            aria-label="add artwork to My Collection"
+          >
             Save to My Collection
           </button>
         )}

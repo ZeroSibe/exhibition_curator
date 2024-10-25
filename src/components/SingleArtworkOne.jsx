@@ -97,7 +97,7 @@ export default function SingleArtworkOne() {
 
   const subHeading =
     artwork.titles && artwork.titles[0] ? (
-      <p className="singleArtwork_subHeading">{artwork.objectType}</p>
+      <h2 className="singleArtwork_subHeading">{artwork.objectType}</h2>
     ) : null;
 
   const dateCreated =
@@ -140,9 +140,13 @@ export default function SingleArtworkOne() {
     );
 
   return (
-    <div>
-      <div>
-        <Button onClick={() => navigate(-1)} variant="link">
+    <article>
+      <div className="mt-2">
+        <Button
+          onClick={() => navigate(-1)}
+          variant="link"
+          aria-label="back to previous page"
+        >
           <IoIosArrowBack aria-hidden />
           Go Back
         </Button>
@@ -154,7 +158,6 @@ export default function SingleArtworkOne() {
         </div>
       ) : (
         <div className="singleArtwork_wrapper">
-          
           <div
             style={{
               flex: "1 1 50%",
@@ -171,58 +174,56 @@ export default function SingleArtworkOne() {
             />
           </div>
 
-
-
-          <div style={{ flex: "1 1 50%" }}>
-            <h2 className="singleArtwork_largeHeading">{title}</h2>
+          <section style={{ flex: "1 1 50%" }}>
+            <h1 className="singleArtwork_largeHeading">{title}</h1>
 
             {subHeading}
 
-            <div className="singleArtwork_margins">
-              <h3 className="singleArtwork_medHeading">Artist</h3>
+            <section className="singleArtwork_margins">
+              <h2 className="singleArtwork_medHeading">Artist</h2>
               {creators}
-            </div>
+            </section>
 
-            <div className="singleArtwork_margins">
-              <h3 className="singleArtwork_medHeading">Date</h3>
+            <section className="singleArtwork_margins">
+              <h2 className="singleArtwork_medHeading">Date</h2>
               <p>{dateCreated}</p>
-            </div>
+            </section>
 
             {artwork.materialsAndTechniques && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">
                   Materials and Techniques
-                </h3>
+                </h2>
                 <p>{artwork.materialsAndTechniques}</p>
-              </div>
+              </section>
             )}
 
             {artworkMeasurements && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Dimensions</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Dimensions</h2>
                 {artworkMeasurements}
-              </div>
+              </section>
             )}
 
             {artwork.galleryLabels && artwork.galleryLabels[0] && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Gallery Label</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Gallery Label</h2>
                 <p>{artwork.galleryLabels[0].text}</p>
-              </div>
+              </section>
             )}
 
             {artwork.briefDescription && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Description</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Description</h2>
                 <p>{artwork.briefDescription}</p>
-              </div>
+              </section>
             )}
 
             {artwork.summaryDescription && (
               <div className="singleArtwork_margins">
                 <Collapsible className="w-[350px] space-y-2">
                   <CollapsibleTrigger className="flex items-center justify-between hover:text-[#3b82f6]">
-                    <h4 className="text-sm font-semibold">View More Details</h4>
+                    <h3 className="text-sm font-semibold">View More Details</h3>
                     <HiMiniChevronUpDown className="w-5 h-5" />
                   </CollapsibleTrigger>
                   <CollapsibleContent className="space-y-2">
@@ -237,8 +238,8 @@ export default function SingleArtworkOne() {
             )}
 
             {artwork.galleryLocations ? (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Location</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Location</h2>
                 <p>
                   {artwork.galleryLocations[0]?.current.text ===
                   "VADunScotDesGal"
@@ -254,37 +255,44 @@ export default function SingleArtworkOne() {
                     <Button variant="link"> vam.ac.uk</Button>
                   </Link>
                 </p>
-              </div>
+              </section>
             ) : (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Location</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Location</h2>
                 <p>
                   No Longer on Display. View more details at
                   <Link
                     to={`http://collections.vam.ac.uk/item/${artwork.systemNumber}`}
                     target="_blank"
                   >
-                    <Button variant="link"> vam.ac.uk</Button>
+                    <Button aria-hidden variant="link">
+                      vam.ac.uk
+                    </Button>
                   </Link>
                 </p>
-              </div>
+              </section>
             )}
 
             {isInCollection ? (
               <button
                 onClick={removeFromCollection}
                 className="singleArtwork_btn"
+                aria-label="remove artwork from My Collection"
               >
                 Remove from My Collection
               </button>
             ) : (
-              <button onClick={saveToCollection} className="singleArtwork_btn">
+              <button
+                onClick={saveToCollection}
+                className="singleArtwork_btn"
+                aria-label="add artwork to My Collection"
+              >
                 Save to My Collection
               </button>
             )}
-          </div>
+          </section>
         </div>
       )}
-    </div>
+    </article>
   );
 }

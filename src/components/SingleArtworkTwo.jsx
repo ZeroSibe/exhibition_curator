@@ -82,7 +82,7 @@ export default function SingleArtworkTwo() {
           }
         } else if (err.request) {
           setError(
-            "Connection Error, please check your connection and try again."
+            "Connection Error, please check your connection and try again later."
           );
         } else {
           setError("Something went wrong...please try again later.");
@@ -100,8 +100,12 @@ export default function SingleArtworkTwo() {
 
   return (
     <div>
-      <div>
-        <Button onClick={() => navigate(-1)} variant="link">
+      <div className="mt-2">
+        <Button
+          onClick={() => navigate(-1)}
+          variant="link"
+          aria-label="back to previous page"
+        >
           <IoIosArrowBack aria-hidden />
           Go Back
         </Button>
@@ -121,71 +125,71 @@ export default function SingleArtworkTwo() {
             <ImageSlider imageUrls={imageUrls} alt={artwork.title} />
           </div>
 
-          <div style={{ flex: "1 1 50%" }}>
-            <h2 className="singleArtwork_largeHeading">{artwork.title}</h2>
+          <section style={{ flex: "1 1 50%" }}>
+            <h1 className="singleArtwork_largeHeading">{artwork.title}</h1>
 
             {artwork.culture[0] && (
               <p className="singleArtwork_subHeading">{artwork.culture[0]}</p>
             )}
 
             {artwork.creators && artwork.creators[0] ? (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Artist</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Artist</h2>
                 <p>
                   {artwork.creators
                     .map((creator) => creator.description)
                     .join(", ")}
                 </p>
-              </div>
+              </section>
             ) : (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Artist</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Artist</h2>
                 <p>Unknown Artist</p>
-              </div>
+              </section>
             )}
 
             {artwork.creation_date && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Date</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Date</h2>
                 <p>{artwork.creation_date}</p>
-              </div>
+              </section>
             )}
 
             {artwork.technique && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">
                   Materials and Techniques
-                </h3>
+                </h2>
                 <p>{artwork.technique}</p>
-              </div>
+              </section>
             )}
 
             {artwork.measurements && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Dimensions</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Dimensions</h2>
                 <p>{artwork.measurements}</p>
-              </div>
+              </section>
             )}
 
             {artwork.collection && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading"> Collection</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading"> Collection</h2>
                 <p> {artwork.collection}</p>
-              </div>
+              </section>
             )}
 
             {artwork.description && (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Description</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Description</h2>
                 <p dangerouslySetInnerHTML={{ __html: artwork.description }} />
-              </div>
+              </section>
             )}
 
             {artwork.did_you_know && (
               <div className="singleArtwork_margins">
                 <Collapsible className="w-[350px] space-y-2">
                   <CollapsibleTrigger className="flex items-center justify-between hover:text-[#3b82f6]">
-                    <h4 className="text-sm font-semibold">View More Details</h4>
+                    <h3 className="text-sm font-semibold">View More Details</h3>
                     <HiMiniChevronUpDown className="w-5 h-5" />
                   </CollapsibleTrigger>
                   <CollapsibleContent className="space-y-2">
@@ -200,8 +204,8 @@ export default function SingleArtworkTwo() {
             )}
 
             {artwork.current_location ? (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Location</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Location</h2>
                 <p>
                   On display at {artwork.current_location}, 11150 East Blvd,
                   Cleveland, OH 44106, United States.{" "}
@@ -212,33 +216,40 @@ export default function SingleArtworkTwo() {
                     <Button variant="link">clevelandart.org</Button>
                   </Link>
                 </p>
-              </div>
+              </section>
             ) : (
-              <div className="singleArtwork_margins">
-                <h3 className="singleArtwork_medHeading">Location</h3>
+              <section className="singleArtwork_margins">
+                <h2 className="singleArtwork_medHeading">Location</h2>
                 <p>No Longer on Display. </p>
                 <p>
                   View more details at
                   <Link to={artwork.url} target="_blank">
-                    <Button variant="link">clevelandart.org</Button>
+                    <Button aria-hidden variant="link">
+                      clevelandart.org
+                    </Button>
                   </Link>
                 </p>
-              </div>
+              </section>
             )}
 
             {isInCollection ? (
               <button
                 onClick={removeFromCollection}
                 className="singleArtwork_btn"
+                aria-label="remove artwork from My Collection"
               >
                 Remove from My Collection
               </button>
             ) : (
-              <button onClick={saveToCollection} className="singleArtwork_btn">
+              <button
+                onClick={saveToCollection}
+                className="singleArtwork_btn"
+                aria-label="add artwork to My Collection"
+              >
                 Save to My Collection
               </button>
             )}
-          </div>
+          </section>
         </div>
       )}
     </div>

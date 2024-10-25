@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { signUp } from "@/auth";
+import { passwordReset } from "@/auth";
+
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -16,16 +16,17 @@ import { Button } from "./ui/button";
 
 import "./SignUp.css";
 import { AlertDestructive } from "./AlertDestructive";
+import LoadingSpinner from "./LoadingSpinner";
+import { AlertSuccess } from "./AlertSuccess";
 
-export default function SignUp() {
+export default function ForgotPassward() {
   const { userLoggedIn } = useAuth();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
+
   useEffect(() => {
     if (userLoggedIn) {
       navigate("/my-profile");
@@ -34,16 +35,19 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      return setError("Passwords do not match");
+    if (!email) {
+      return setError("Please provide the email you used to login");
     }
     try {
+      setMessage("");
       setError("");
       setIsLoading(true);
-      await signUp(email, password);
-      navigate("/my-profile");
+      await passwordReset(email);
+      setMessage("Check your inbox for further instructions");
     } catch {
-      setError("Failed to create an account");
+      setError(
+        "Failed to reset. Please check if you have provided the correct email."
+      );
     }
     setIsLoading(false);
   };
@@ -53,10 +57,11 @@ export default function SignUp() {
       <div className="w-100" style={{ maxHeight: "400px" }}>
         <Card className="w-[350px]">
           <CardHeader>
-            <CardTitle className="text-center mb-2">Sign Up</CardTitle>
+            <CardTitle className="text-center mb-2">Forgot Passward?</CardTitle>
             {error && <AlertDestructive msg={error} />}
+            {message && <AlertSuccess msg={message} />}
             <CardDescription className="text-center mb-4">
-              Signup to create your exhibition
+              Please enter the email you used to sign log in
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -74,45 +79,25 @@ export default function SignUp() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    required
-                    type="password"
-                    placeholder="Enter your password"
-                    aria-label="input password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="confirmPassword">Password Confirmation</Label>
-                  <Input
-                    id="confirmPassword"
-                    required
-                    type="password"
-                    placeholder="Retype your password"
-                    aria-label="retype password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                </div>
               </div>
 
               <div className="centered_btn mt-4">
                 <Button disabled={isLoading} className="w-100" type="submit">
-                  {isLoading ? "Signing up..." : "Signup"}
+                  {isLoading ? "Resetting password..." : "Reset Password"}
                 </Button>
               </div>
+              {isLoading && <LoadingSpinner />}
             </form>
+            <div className="w-100 text-center mt-4 mb-1 text-blue-700">
+              <Link to="/login">Login</Link>
+            </div>
           </CardContent>
         </Card>
-        <p className="w-100 text-center mt-2">
-          Already have an account?
-          <Link to="/login" className="text-blue-700">
+        <p className="text-center mt-4">
+          Don't have an account?
+          <Link to="/signup" className="text-blue-700">
             {" "}
-            Login
+            Sign Up
           </Link>
         </p>
       </div>

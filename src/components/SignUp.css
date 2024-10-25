@@ -1,0 +1,13 @@
+.auth_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  padding-top: 80px;
+  padding-bottom: 20px;
+}
+
+.centered_btn {
+  display: flex;
+  justify-content: center;
+}

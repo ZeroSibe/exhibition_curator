@@ -5,16 +5,18 @@ import "./collections.css";
 export default function Collections() {
   return (
     <div>
-      <h2>Browse By Collection</h2>
+      <h1 className="text-[30px] font-bold py-20 px-10">
+        Browse By Collection
+      </h1>
       <div className="collections__wrapper">
         <Link to="/collections/victoria-and-albert-museum">
           <section className="collection__card">
             <img
               className="collection__card__img"
               src="./V&ADundee.png"
-              alt="A view of the V&A Dundee museum looking like the ribbed carcass of a beached whale in the night sky."
+              alt="A view of the V&A Dundee museum."
             />
-            <h3 className="collection_card__title">V&A Dundee Collection</h3>
+            <h2 className="collection_card__title">V&A Dundee Collection</h2>
           </section>
         </Link>
 
@@ -23,11 +25,11 @@ export default function Collections() {
             <img
               className="collection__card__img"
               src="./Cleveland_Museum_of_Art.jpg"
-              alt="View of The Cleveland Museum of Art from the steps of the Euclid Avenue entrance to Wade Park, overlooking the Lagoon."
+              alt="A view of The Cleveland Museum of Art."
             />
-            <h3 className="collection_card__title">
+            <h2 className="collection_card__title">
               The Cleveland Museum of Art Collection
-            </h3>
+            </h2>
           </section>
         </Link>
       </div>

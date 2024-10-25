@@ -32,7 +32,7 @@ export default function ImageSlider({ imageUrls, alt }) {
   }
 
   return (
-    <section
+    <figure
       aria-label="Image Slider"
       style={{ width: "100%", height: "100%", position: "relative" }}
     >
@@ -103,8 +103,6 @@ export default function ImageSlider({ imageUrls, alt }) {
         ))}
       </div>
 
-  
-
       {selectedImage && (
         <ImageModal
           imageUrl={selectedImage}
@@ -114,6 +112,6 @@ export default function ImageSlider({ imageUrls, alt }) {
       )}
 
       <div id="end-of-image"></div>
-    </section>
+    </figure>
   );
 }
