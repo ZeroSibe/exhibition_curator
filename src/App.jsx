@@ -12,12 +12,17 @@ import SingleArtworkTwo from "./components/SingleArtworkTwo";
 import { Toaster } from "@/components/ui/toaster";
 import ErrorPage from "./components/ErrorPage";
 import SignUp from "./components/SignUp";
+import MyProfile from "./components/MyProfile";
+import ForgotPassward from "./components/ForgotPassward";
+import CuratedExhibition from "./components/CuratedExhibition";
+import Exhibition from "./components/Exhibition";
 
 function App() {
   return (
     <div>
       <Toaster />
       <Header />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/collections" element={<Collections />} />
@@ -39,9 +44,17 @@ function App() {
         />
         <Route path="/my-collection" element={<MyCollection />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassward />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/my-profile" element={<MyProfile />} />
+        <Route path="/curated-exhibition" element={<CuratedExhibition />} />
+        <Route
+          path="/curated-exhibition/:exhibitionId"
+          element={<Exhibition />}
+        />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
+      
     </div>
   );
 }

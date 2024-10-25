@@ -6,7 +6,6 @@ export function AlertDestructive({ msg }) {
   return (
     <Alert variant="destructive">
       <ExclamationTriangleIcon className="h-4 w-4" />
-      <AlertTitle>Error</AlertTitle>
       <AlertDescription>{msg}</AlertDescription>
     </Alert>
   );

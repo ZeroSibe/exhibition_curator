@@ -34,11 +34,6 @@ export default function ArtCollectionTwoCard({ artwork }) {
     });
   };
 
-  const creatorDescription =
-    artwork.creators && artwork.creators[0]
-      ? artwork.creators[0].description
-      : "Unknown Artist";
-
   return (
     <div className="card">
       <Link to={`/collections/cleveland-museum-of-art/${artwork.id}`}>

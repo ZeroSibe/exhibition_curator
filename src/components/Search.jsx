@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { IoCloseSharp } from "react-icons/io5";
+import { RiCloseCircleLine } from "react-icons/ri";
 
 export default function Search({ setSearchParams, query }) {
   const [newSearchQuery, setNewSearchQuery] = useState("");
@@ -22,8 +24,13 @@ export default function Search({ setSearchParams, query }) {
   }
 
   const showClearQuery = query ? (
-    <div className="text-center mt-2  bg-primary rounded-full p-3  text-white  hover:text-black cursor-pointer hover:scale-105 transition-all">
-      <button aria-label="clear search query" onClick={clearSearch}>
+    <div className="text-center mt-2  bg-zinc-200 rounded-full p-3  text-zinc-950  hover:bg-zinc-300 cursor-pointer hover:scale-105 transition-all">
+      <button
+        aria-label="clear search query"
+        onClick={clearSearch}
+        className="flex gap-1"
+      >
+        <IoCloseSharp aria-hidden className="mt-1" />
         Clear results for {query}
       </button>
     </div>

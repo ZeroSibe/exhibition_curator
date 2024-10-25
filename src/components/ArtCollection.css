@@ -9,7 +9,7 @@
 .card {
   box-shadow: 0 0 10px 5px #e1e5ee;
   border-radius: 0.2rem;
-  min-width: 19rem;
+  min-width: 25.5rem;
   display: flex;
 }
 
@@ -31,6 +31,7 @@
 .card__title {
   line-height: 1.4rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .card__description {
@@ -59,6 +60,14 @@
   text-align: center;
   margin: 48px 0 32px;
   font-size: 50px;
+}
+
+.centered-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
 }
 
 @media screen and (min-width: 767px) {
