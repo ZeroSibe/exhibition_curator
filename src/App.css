@@ -45,3 +45,11 @@ body {
   align-items: center;
 }
 
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
