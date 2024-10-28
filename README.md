@@ -14,6 +14,11 @@ Exhibition Curator is a place to build your own personal collection by browsing 
 - After the user creates an account the selected artworks can then be added to a personalised exhibition
 - When a user selects an artwork, more details of the artwork can be viewed, including a link to where the artwork is located.
 
+## Prerequisites:
+
+- Node.js v20.9.0
+- Firebase Authentication and Firestore Database
+
 ## Project Set-Up:
 
 To Run this project locally
@@ -38,27 +43,36 @@ npm install
 
 4. Create a Firebase project:
 
-- register your web-app within firebase by following the firebase instructions [here](https://firebase.google.com/docs/web/setup)
+- Create a Firebase project by following the setup guide [here](https://firebase.google.com/docs/web/setup)
 
-- Once authentication is set by email and password, navigate to Firestore Database to open an 'Exhibitions' database.
+- Enable Firebase Authentication (Email/Password).
+
+- Set up a Firestore Database and create a collection named `Exhibitions`
 
 5. Create the '.env.local' file within the root directory level and add the env variables:
 
-Note: This can be found in your firebase project setting.
-
-You can refer to '.env-example' file if you are not sure how to set the '.env.local' file.
+Refer to the .env-example file for structure, and get your Firebase keys from your Firebase project settings.
 
 ```
-VITE_FIREBASE_API_KEY=firebase_api_key_value
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_firebase_app_id
 
 ```
 
-6. Preview in your browser:
+6. Creating a Firestore Collection:
+
+- Go to Firestore Database in the Firebase console and create a collection named `Exhibitions`.
+- Ensure the collection has the necessary fields like `artworks`, `exhibition_name`, and `user_id`.
+- Set up Firestore security rules, only registered users has read and write access for Exhibitions.
+
+7. Preview in your browser:
 
 ```
 npm run dev
 ```
 
 Follow the link in your terminal.
-
-Minimum version of Node required to run locally: v20.9.0
