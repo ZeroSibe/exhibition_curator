@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
 import "./ArtCollection.css";
 import { useToast } from "@/hooks/use-toast";
+import placeholderImage from "../assets/placeholder.png";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function ArtCollectionTwoCard({ artwork }) {
   const { collection, setCollection } = useContext(CollectionContext);
   const { toast } = useToast();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const isInCollection = collection.some(
     (item) => item.artwork.id === artwork.id
@@ -41,7 +44,18 @@ export default function ArtCollectionTwoCard({ artwork }) {
           src={artwork.images.web.url}
           alt={`Artwork of ${artwork.title} in the style ${artwork.technique}`}
           className="card__img"
+          onLoad={() => setImageLoaded(true)}
+          onError={(e) => {
+            e.target.src = placeholderImage;
+          }}
+          style={{ display: imageLoaded ? "block" : "none" }}
         />
+
+        {!imageLoaded && (
+          <div className="image-placeholder" aria-label="loading artwork image">
+            <LoadingSpinner />
+          </div>
+        )}
       </Link>
       <div className="card__body">
         <h3 className="card__title">

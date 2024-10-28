@@ -96,29 +96,48 @@ export default function Header() {
       </nav>
       {isActive && (
         <menu className="md:hidden flex flex-col list-none space-y-4 text-black mt-4">
-          <li className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all">
-            <Link to="/collections">Collections</Link>
-          </li>
-          <li className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all">
-            <Link to="/my-collection">My Collection</Link>
-          </li>
+          <Link
+            to="/"
+            className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all"
+          >
+            <li>Home</li>
+          </Link>
+          <Link
+            to="/collections"
+            className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all"
+          >
+            <li>Collections</li>
+          </Link>
+
+          <Link
+            to="/my-collection"
+            className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all"
+          >
+            <li>My Collection</li>
+          </Link>
           {userLoggedIn ? (
             <>
-              <li className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all">
-                <Link to="/my-profile">Profile</Link>
-              </li>
+              <Link
+                to="/my-profile"
+                className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all"
+              >
+                <li>Profile</li>
+              </Link>
 
-              <li className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all">
-                <Link to="/curated-exhibition">Curated Exhibition</Link>
-              </li>
+              <Link
+                to="/curated-exhibition"
+                className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all"
+              >
+                <li>Curated Exhibition</li>
+              </Link>
             </>
           ) : (
-            <li className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all">
-              <Link to="/login">Login</Link>
-            </li>
+            <Link
+              to="/login"
+              className="hover:bg-gray-100 py-1.5 px-4 cursor-pointer hover:text-black inline-block transition-all"
+            >
+              <li>Login</li>
+            </Link>
           )}
         </menu>
       )}

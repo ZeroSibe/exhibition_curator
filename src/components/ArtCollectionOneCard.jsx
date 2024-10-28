@@ -1,15 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
 import { getFullImage, truncateTitle } from "@/utils/utils";
 import { useToast } from "@/hooks/use-toast";
+import placeholderImage from "../assets/placeholder.png";
 
 import "./ArtCollection.css";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function ArtCollectionOneCard({ artwork }) {
   const artwork_id = artwork.systemNumber;
   const { collection, setCollection } = useContext(CollectionContext);
   const { toast } = useToast();
+
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const isInCollection = collection.some(
     (item) => item.artwork.systemNumber === artwork_id
@@ -59,10 +63,20 @@ export default function ArtCollectionOneCard({ artwork }) {
     <div className="card">
       <Link to={`/collections/victoria-and-albert-museum/${artwork_id}`}>
         <img
-          src={imageUrl ? imageUrl : artwork._images._primary_thumbnail}
+          src={imageUrl}
           alt={`Artwork ${artwork.systemNumber} of ${artwork.objectType}`}
           className="card__img"
+          onLoad={() => setImageLoaded(true)}
+          onError={(e) => {
+            e.target.src = placeholderImage;
+          }}
+          style={{ display: imageLoaded ? "block" : "none" }}
         />
+        {!imageLoaded && (
+          <div className="image-placeholder" aria-label="loading artwork image">
+            <LoadingSpinner />
+          </div>
+        )}
       </Link>
       <div className="card__body">
         <h2 className="card__title">

@@ -1,5 +1,3 @@
-import { collection } from "firebase/firestore";
-
 export const getImageUrls = (artwork) => {
   const imageUrls = [];
   if (artwork.images.web) {
@@ -28,6 +26,7 @@ export const getFullImage = (artwork) => {
       `https://framemark.vam.ac.uk/collections/${artwork._primaryImageId}/full/full/0/default.jpg`
     );
   }
+
   return imageUrls;
 };
 
