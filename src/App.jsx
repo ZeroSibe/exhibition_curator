@@ -21,40 +21,44 @@ function App() {
   return (
     <div>
       <Toaster />
+      <a href="#content" className="skip-link">
+        Skip Navigation Menu
+      </a>
       <Header />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/collections" element={<Collections />} />
-        <Route
-          path="/collections/victoria-and-albert-museum"
-          element={<ArtlistCollectionOne />}
-        />
-        <Route
-          path="/collections/victoria-and-albert-museum/:artwork_id"
-          element={<SingleArtworkOne />}
-        />
-        <Route
-          path="/collections/cleveland-museum-of-art"
-          element={<ArtlistCollectionTwo />}
-        />
-        <Route
-          path="/collections/cleveland-museum-of-art/:artwork_id"
-          element={<SingleArtworkTwo />}
-        />
-        <Route path="/my-collection" element={<MyCollection />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassward />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/curated-exhibition" element={<CuratedExhibition />} />
-        <Route
-          path="/curated-exhibition/:exhibitionId"
-          element={<Exhibition />}
-        />
-        <Route path="/*" element={<ErrorPage />} />
-      </Routes>
-      
+      <main id="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/collections" element={<Collections />} />
+          <Route
+            path="/collections/victoria-and-albert-museum"
+            element={<ArtlistCollectionOne />}
+          />
+          <Route
+            path="/collections/victoria-and-albert-museum/:artwork_id"
+            element={<SingleArtworkOne />}
+          />
+          <Route
+            path="/collections/cleveland-museum-of-art"
+            element={<ArtlistCollectionTwo />}
+          />
+          <Route
+            path="/collections/cleveland-museum-of-art/:artwork_id"
+            element={<SingleArtworkTwo />}
+          />
+          <Route path="/my-collection" element={<MyCollection />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassward />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/my-profile" element={<MyProfile />} />
+          <Route path="/curated-exhibition" element={<CuratedExhibition />} />
+          <Route
+            path="/curated-exhibition/:exhibitionId"
+            element={<Exhibition />}
+          />
+          <Route path="/*" element={<ErrorPage />} />
+        </Routes>
+      </main>
     </div>
   );
 }

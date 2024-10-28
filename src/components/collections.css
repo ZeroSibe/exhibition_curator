@@ -14,7 +14,8 @@
   flex-direction: column;
 }
 
-.collection__card:hover {
+.collection__card:hover,
+.collection__card:focus-visible {
   box-shadow: 0 0 10px 5px #9eb4e9;
 }
 

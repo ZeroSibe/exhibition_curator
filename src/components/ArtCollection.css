@@ -13,7 +13,8 @@
   display: flex;
 }
 
-.card:hover {
+.card:hover,
+.card:focus-visible {
   box-shadow: 0 0 10px 5px #9eb4e9;
 }
 
@@ -52,7 +53,8 @@
   cursor: pointer;
 }
 
-.card__btn:hover {
+.card__btn:hover,
+.card__btn:focus-visible {
   color: #3b82f6;
 }
 

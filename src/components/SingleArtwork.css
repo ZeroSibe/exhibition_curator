@@ -55,7 +55,8 @@
   cursor: pointer;
 }
 
-.singleArtwork_btn:hover {
+.singleArtwork_btn:hover,
+.singleArtwork_btn:focus-visible {
   color: #3b82f6;
 }
 
