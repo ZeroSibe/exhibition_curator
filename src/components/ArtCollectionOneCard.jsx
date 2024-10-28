@@ -1,14 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
 import { getFullImage, truncateTitle } from "@/utils/utils";
-import ImageSlider from "./ImageSlider";
-import { getArtworkOneById } from "@/utils/api";
-import { Separator } from "./ui/separator";
 import { useToast } from "@/hooks/use-toast";
 
 import "./ArtCollection.css";
-import { SkeletonCard } from "./SkeletonCard";
 
 export default function ArtCollectionOneCard({ artwork }) {
   const artwork_id = artwork.systemNumber;
@@ -60,7 +56,6 @@ export default function ArtCollectionOneCard({ artwork }) {
     : getFullImage(artwork)[0];
 
   return (
-    
     <div className="card">
       <Link to={`/collections/victoria-and-albert-museum/${artwork_id}`}>
         <img

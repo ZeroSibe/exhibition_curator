@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { CollectionContext } from "../contexts/Collection";
 import { Link } from "react-router-dom";
 import "./ArtCollection.css";

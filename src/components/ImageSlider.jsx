@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from "lucide-react";
 import "./image-slider.css";
 import ImageModal from "./ImageModal";
-import { FaExpand } from "react-icons/fa6";
-import { Button } from "@/components/ui/button";
 
 export default function ImageSlider({ imageUrls, alt }) {
   const [imageIndex, setImageIndex] = useState(0);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
-import { RiCloseCircleLine } from "react-icons/ri";
+
 
 export default function Search({ setSearchParams, query }) {
   const [newSearchQuery, setNewSearchQuery] = useState("");
