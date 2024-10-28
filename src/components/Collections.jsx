@@ -13,7 +13,7 @@ export default function Collections() {
           <section className="collection__card">
             <img
               className="collection__card__img"
-              src="src/assets/V&ADundee.png"
+              src="/V&ADundee.png"
               alt="A view of the V&A Dundee museum."
             />
             <h2 className="collection_card__title">V&A Dundee Collection</h2>
@@ -24,7 +24,7 @@ export default function Collections() {
           <section className="collection__card">
             <img
               className="collection__card__img"
-              src="src/assets/Cleveland_Museum_of_Art.jpg"
+              src="/Cleveland_Museum_of_Art.jpg"
               alt="A view of The Cleveland Museum of Art."
             />
             <h2 className="collection_card__title">
