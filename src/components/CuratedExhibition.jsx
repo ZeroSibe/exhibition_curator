@@ -79,7 +79,6 @@ export default function CuratedExhibition() {
       );
       setIsLoading(false);
     } catch (error) {
-      console.error("Error deleting exhibition: ", error);
       setError("Could not delete the exhibition...Please try again later.");
       setIsLoading(false);
     }
